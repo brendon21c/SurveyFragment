@@ -3,6 +3,8 @@ package com.brendon.surveyfragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * Created by Brendon on 9/25/16.
- */
 
 public class UpdateFragment extends Fragment {
 
@@ -70,12 +69,15 @@ public class UpdateFragment extends Fragment {
                     SurveyMain.surveyBank.put(answerOneTemp,0);
                     SurveyMain.surveyBank.put(answerTwoTemp,0);
 
+
                 }
 
 
 
             }
         });
+
+
 
 
         return view;

@@ -9,14 +9,15 @@ import android.widget.Button;
 
 import java.util.HashMap;
 
+/*
+There is a side note with this project. The data is being passed by each fragment by accessing
+the data directly from the main Activity. I'm not sure if this is best but it is the only way
+I could think of. Also you need to press the back button to get rid of the fragments and I
+am really not a fan of this.
+ */
+
 public class SurveyMain extends FragmentActivity {
 
-    private static final String TAG = "MainActivity";
-    public static final String INDEX_KEY= "Survey bank";
-    private static final String QUESTION_INDEX_KEY = "Question key";
-    private static final String HASH_INDEX_KEY = "Hash key";
-    private static final int SURVEY_REQUEST_CODE = 1;
-    private static final int UPDATE_REQUEST_CODE = 2;
 
 
     /*
@@ -24,7 +25,6 @@ public class SurveyMain extends FragmentActivity {
     */
     private static final int  mAnswerStart1 = 0;
     private static final int mAnswerStart2 = 0;
-    private String answerTemp = "";
 
     public static String mCurrentSurveyQuestion = "Do you like fresh baked chocolate chip cookies?";
     public static String mAnswerkey1 = "yes";
@@ -35,9 +35,10 @@ public class SurveyMain extends FragmentActivity {
      */
     public static HashMap<String,Integer> surveyBank;
 
-    private Button mQuestionButton;
-    private Button mUpdateButton;
-    private Button mResultsButton;
+
+    public  Button mQuestionButton;
+    public  Button mUpdateButton;
+    public  Button mResultsButton;
 
 
     @Override
@@ -48,6 +49,7 @@ public class SurveyMain extends FragmentActivity {
         mQuestionButton = (Button) findViewById(R.id.survey_button);
         mUpdateButton = (Button) findViewById(R.id.update_button);
         mResultsButton = (Button) findViewById(R.id.results_button);
+
 
 
 
@@ -84,6 +86,28 @@ public class SurveyMain extends FragmentActivity {
                 if (frag == null) {
 
                     frag = new UpdateFragment();
+
+                    fm.beginTransaction()
+                            .add(R.id.activity_survey_main, frag)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+
+
+            }
+        });
+
+        mResultsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
+
+                if (frag == null) {
+
+                    frag = new ResultsFragment();
 
                     fm.beginTransaction()
                             .add(R.id.activity_survey_main, frag)

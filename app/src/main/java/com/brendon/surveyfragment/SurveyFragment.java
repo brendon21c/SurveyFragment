@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-/**
- * Created by Brendon on 9/25/16.
- */
+
 
 public class SurveyFragment extends Fragment {
 
