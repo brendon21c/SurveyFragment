@@ -9,27 +9,32 @@
         android:text="Survey question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp"
-        android:id="@+id/survey_button"/>
+        android:id="@+id/survey_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="37dp"/>
 
     <Button
         android:text="Update question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/update_button"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/survey_button"
-        android:layout_alignStart="@+id/survey_button"/>
+        android:layout_alignBaseline="@+id/survey_button"
+        android:layout_alignBottom="@+id/survey_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="29dp"
+        android:layout_marginEnd="29dp"/>
 
     <Button
         android:text="Results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/update_button"
-        android:layout_alignLeft="@+id/update_button"
-        android:layout_alignStart="@+id/update_button"
-        android:layout_marginTop="38dp"
-        android:id="@+id/results_button"/>
+        android:id="@+id/results_button"
+        android:layout_marginBottom="14dp"
+        android:layout_above="@+id/update_button"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

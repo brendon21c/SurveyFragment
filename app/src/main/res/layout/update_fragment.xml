@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:text="Please enter a question."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/question_label"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/question_entry"/>
+
+    <TextView
+        android:text="Please enter a simple answer."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/answer_one_label"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/answer_one_entry"/>
+
+    <TextView
+        android:text="Please enter a simple answer."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/answer_two_label"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/answer_two_entry"/>
+
+    <Button
+        android:text="Update Survey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_button"/>
+</LinearLayout>

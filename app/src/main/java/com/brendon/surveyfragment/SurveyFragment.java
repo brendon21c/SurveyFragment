@@ -21,7 +21,7 @@ public class SurveyFragment extends Fragment {
     private Button mButton1;
     private Button mButton2;
 
-    private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
+    //private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
     private String mQuestionText;
 
 
@@ -35,15 +35,16 @@ public class SurveyFragment extends Fragment {
         mButton1 = (Button) view.findViewById(R.id.yes_button);
         mButton2 = (Button) view.findViewById(R.id.no_button);
 
+        /*
         Bundle bundle = this.getArguments();
 
         if (bundle.getSerializable("hash key") != null) {
 
             mSurveybank = (HashMap<String,Integer>) bundle.getSerializable("hash key");
 
-        }
+        } */
 
-        mQuestionText = bundle.getString("Question key");
+        mQuestionText = SurveyMain.mCurrentSurveyQuestion;
         mQuestion.setText(mQuestionText);
         mButton1.setText(SurveyMain.mAnswerkey1);
         mButton2.setText(SurveyMain.mAnswerkey2);
@@ -53,12 +54,29 @@ public class SurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                int temp = mSurveybank.get(SurveyMain.mAnswerkey1);
+                int temp = SurveyMain.surveyBank.get(SurveyMain.mAnswerkey1);
 
-                mSurveybank.put(SurveyMain.mAnswerkey1, temp + 1);
+                SurveyMain.surveyBank.put(SurveyMain.mAnswerkey1, temp + 1);
+
+                System.out.println(SurveyMain.surveyBank.get(SurveyMain.mAnswerkey1));
 
             }
         });
+
+        mButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int temp = SurveyMain.surveyBank.get(SurveyMain.mAnswerkey2);
+
+                SurveyMain.surveyBank.put(SurveyMain.mAnswerkey2, temp + 1);
+
+                System.out.println(SurveyMain.surveyBank.get(SurveyMain.mAnswerkey2));
+
+            }
+        });
+
+
 
 
 

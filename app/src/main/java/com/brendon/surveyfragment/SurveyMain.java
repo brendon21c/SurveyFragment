@@ -33,7 +33,7 @@ public class SurveyMain extends FragmentActivity {
     /*
     Survey answer total will be kep in this Hashmap.
      */
-    private HashMap<String,Integer> surveyBank;
+    public static HashMap<String,Integer> surveyBank;
 
     private Button mQuestionButton;
     private Button mUpdateButton;
@@ -60,14 +60,9 @@ public class SurveyMain extends FragmentActivity {
                 Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
 
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(HASH_INDEX_KEY, surveyBank);
-                bundle.putString(QUESTION_INDEX_KEY, mCurrentSurveyQuestion);
-
                 if (frag == null) {
 
                     frag = new SurveyFragment();
-                    frag.setArguments(bundle);
 
                     fm.beginTransaction()
                             .add(R.id.activity_survey_main, frag)
@@ -77,6 +72,31 @@ public class SurveyMain extends FragmentActivity {
 
             }
         });
+
+
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
+
+                if (frag == null) {
+
+                    frag = new UpdateFragment();
+
+                    fm.beginTransaction()
+                            .add(R.id.activity_survey_main, frag)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+
+
+            }
+        });
+
+
 
         createSurvey();
 
