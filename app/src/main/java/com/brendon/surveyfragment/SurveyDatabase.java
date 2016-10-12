@@ -2,6 +2,7 @@ package com.brendon.surveyfragment;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,6 +36,14 @@ public class SurveyDatabase {
 
     }
 
+    public Cursor getall() {
+
+        Cursor cursor = db.query(DB_TABLE, null, null, null, null, null, QUESTION_COL);
+
+        return cursor;
+
+    }
+
 
     public boolean addNewQuestion(String question, String answerOne, String answerTwo) {
 
@@ -64,6 +73,30 @@ public class SurveyDatabase {
 
     }
 
+    public boolean updateYes(int vote, String question) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ANSWER_ONE_SURVEY_COL, vote);
+
+        String where = QUESTION_COL + " = ? ";
+        String[] whereArgs = { question };
+
+        int rowMod = db.update(DB_TABLE, contentValues, where, whereArgs);
+
+        if (rowMod == 1) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
+
+
 
 
     /*
@@ -79,8 +112,7 @@ public class SurveyDatabase {
         @Override
         public void onCreate(SQLiteDatabase db) {
             String createSQLbase = "CREATE TABLE %s ( %s TEXT PRIMARY KEY, %s TEXT, %s TEXT, %s INTEGER, %s INTEGER )";
-            String createSQL = String.format(createSQLbase, QUESTION_COL, ANSWER_ONE_COL, ANSWER_TWO_COL, ANSWER_ONE_SURVEY_COL,
-                    ANSWER_TWO_SURVEY_COLL); // Adding new columns to database.
+            String createSQL = String.format(createSQLbase, QUESTION_COL, ANSWER_ONE_COL, ANSWER_TWO_COL, ANSWER_ONE_SURVEY_COL, ANSWER_TWO_SURVEY_COLL); // Adding new columns to database.
             db.execSQL(createSQL);
         }
 
@@ -90,6 +122,8 @@ public class SurveyDatabase {
             onCreate(db);
             Log.w(SQLTAG, "Upgrade table - drop and recreate it");
         }
+
+
     }
 
 

@@ -66,6 +66,7 @@ public class UpdateFragment extends Fragment {
                 } else {
 
                     mDatabase.addNewQuestion(questionTemp,answerOneTemp,answerTwoTemp); // Adds new question to database.
+                    mDatabase.getall();
 
                 }
 

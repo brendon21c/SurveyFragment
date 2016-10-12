@@ -20,16 +20,26 @@ public class SurveyFragment extends Fragment {
     private Button mButton1;
     private Button mButton2;
 
+    private static final int QUESTION_COL = 0;
+    private static final int ANSWER_ONE_COL = 1;
+    private static final int ANSWER_TWO_COL = 2;
+    private static final int ANSWER_ONE_VOTE_COL = 3;
+    private static final int ANSWER_TWO_VOTE_COL = 4;
+
+
     //private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
     private String mQuestionText;
 
     SurveyDatabase mDatabase;
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mDatabase = new SurveyDatabase(getActivity());
+        final Cursor cursor = mDatabase.getall();
 
 
         View view = inflater.inflate(R.layout.survey_fragment, container, false);
@@ -39,21 +49,23 @@ public class SurveyFragment extends Fragment {
         mButton2 = (Button) view.findViewById(R.id.no_button);
 
 
-        mQuestionText = SurveyMain.mCurrentSurveyQuestion;
-        mQuestion.setText(mQuestionText);
-        mButton1.setText(SurveyMain.mAnswerkey1);
-        mButton2.setText(SurveyMain.mAnswerkey2);
+
+        //mQuestionText = SurveyMain.mCurrentSurveyQuestion;
+        mQuestion.setText(cursor.getString(QUESTION_COL));
+        mButton1.setText(cursor.getString(ANSWER_ONE_COL));
+        mButton2.setText(cursor.getString(ANSWER_TWO_COL));
 
 
         mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int temp = SurveyMain.surveyBank.get(SurveyMain.mAnswerkey1);
+                String questionTemp = cursor.getString(QUESTION_COL);
 
-                SurveyMain.surveyBank.put(SurveyMain.mAnswerkey1, temp + 1);
+                int answeVoteTemp = cursor.getInt(ANSWER_ONE_VOTE_COL) + 1;
 
-                System.out.println(SurveyMain.surveyBank.get(SurveyMain.mAnswerkey1));
+                mDatabase.updateYes(answeVoteTemp, questionTemp);
+                mDatabase.getall();
 
             }
         });
