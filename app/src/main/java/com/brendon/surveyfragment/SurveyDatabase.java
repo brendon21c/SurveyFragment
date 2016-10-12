@@ -112,7 +112,7 @@ public class SurveyDatabase {
         @Override
         public void onCreate(SQLiteDatabase db) {
             String createSQLbase = "CREATE TABLE %s ( %s TEXT PRIMARY KEY, %s TEXT, %s TEXT, %s INTEGER, %s INTEGER )";
-            String createSQL = String.format(createSQLbase, QUESTION_COL, ANSWER_ONE_COL, ANSWER_TWO_COL, ANSWER_ONE_SURVEY_COL, ANSWER_TWO_SURVEY_COLL); // Adding new columns to database.
+            String createSQL = String.format(createSQLbase, DB_TABLE, QUESTION_COL, ANSWER_ONE_COL, ANSWER_TWO_COL, ANSWER_ONE_SURVEY_COL, ANSWER_TWO_SURVEY_COLL); // Adding new columns to database.
             db.execSQL(createSQL);
         }
 
