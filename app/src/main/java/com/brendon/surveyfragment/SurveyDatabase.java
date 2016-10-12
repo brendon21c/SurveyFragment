@@ -17,13 +17,14 @@ public class SurveyDatabase {
 
     protected static final String DB_NAME = "Survey";
     protected static final int DB_VERSION = 1;
-    protected static final String DB_TABLE = "Survey Table";
+    protected static final String DB_TABLE = "Survey_Table";
 
     protected static final String QUESTION_COL = "Question";
-    protected static final String ANSWER_ONE_COL = "Answer one";
-    protected static final String ANSWER_TWO_COL = "Answer two";
-    protected static final String ANSWER_ONE_SURVEY_COL = "Answer one vote";
-    protected static final String ANSWER_TWO_SURVEY_COLL = "Answer two vote";
+    protected static final String ANSWER_ONE_COL = "Answer_one";
+    protected static final String ANSWER_TWO_COL = "Answer_two";
+    protected static final String ANSWER_ONE_SURVEY_COL = "Answer_one_vote";
+    protected static final String ANSWER_TWO_SURVEY_COLL = "Answer_two_vote";
+
 
     private static final String SQLTAG = "SQLHelper" ;
 
