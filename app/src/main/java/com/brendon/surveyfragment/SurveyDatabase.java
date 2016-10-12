@@ -64,6 +64,8 @@ public class SurveyDatabase {
 
     }
 
+    public void questionQuery
+
 
     /*
     I know I took this Database format from your program, but I wanted some more work with it

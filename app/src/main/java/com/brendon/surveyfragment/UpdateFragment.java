@@ -25,11 +25,15 @@ public class UpdateFragment extends Fragment {
     private EditText mAnswerTwoEntry;
     private Button mUpdateButton;
 
+    SurveyDatabase mDatabase;
+
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        mDatabase = new SurveyDatabase(getActivity());
 
         View view = inflater.inflate(R.layout.update_fragment, container, false);
 
@@ -61,14 +65,7 @@ public class UpdateFragment extends Fragment {
 
                 } else {
 
-                    SurveyMain.mCurrentSurveyQuestion = questionTemp;
-                    SurveyMain.mAnswerkey1 = answerOneTemp;
-                    SurveyMain.mAnswerkey2 = answerTwoTemp;
-
-                    SurveyMain.surveyBank.clear();
-                    SurveyMain.surveyBank.put(answerOneTemp,0);
-                    SurveyMain.surveyBank.put(answerTwoTemp,0);
-
+                    mDatabase.addNewQuestion(questionTemp,answerOneTemp,answerTwoTemp); // Adds new question to database.
 
                 }
 

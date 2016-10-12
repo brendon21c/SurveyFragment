@@ -127,22 +127,16 @@ public class SurveyMain extends FragmentActivity {
 
 
 
-        createSurvey();
+        //createSurvey();
 
 
 
     }
 
-    // Updates the surveyBank
+    // Creates an intial database.
     private void createSurvey() {
 
-        if (surveyBank == null) {
-
-            surveyBank = new HashMap<String, Integer>();
-            surveyBank.put(mAnswerkey1, mAnswerStart1);
-            surveyBank.put(mAnswerkey2, mAnswerStart2);
-
-        }
+        DBManager.addNewQuestion(mCurrentSurveyQuestion,mAnswerkey1,mAnswerkey2);
 
     }
 

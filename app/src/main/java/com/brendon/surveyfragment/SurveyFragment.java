@@ -38,14 +38,6 @@ public class SurveyFragment extends Fragment {
         mButton1 = (Button) view.findViewById(R.id.yes_button);
         mButton2 = (Button) view.findViewById(R.id.no_button);
 
-        /*
-        Bundle bundle = this.getArguments();
-
-        if (bundle.getSerializable("hash key") != null) {
-
-            mSurveybank = (HashMap<String,Integer>) bundle.getSerializable("hash key");
-
-        } */
 
         mQuestionText = SurveyMain.mCurrentSurveyQuestion;
         mQuestion.setText(mQuestionText);
