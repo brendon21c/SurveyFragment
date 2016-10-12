@@ -41,10 +41,15 @@ public class SurveyMain extends FragmentActivity {
     public  Button mResultsButton;
 
 
+    SurveyDatabase DBManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_main);
+
+        DBManager = new SurveyDatabase(this);
 
         mQuestionButton = (Button) findViewById(R.id.survey_button);
         mUpdateButton = (Button) findViewById(R.id.update_button);

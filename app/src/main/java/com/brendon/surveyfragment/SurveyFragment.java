@@ -1,5 +1,6 @@
 package com.brendon.surveyfragment;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,9 +23,13 @@ public class SurveyFragment extends Fragment {
     //private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
     private String mQuestionText;
 
+    SurveyDatabase mDatabase;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mDatabase = new SurveyDatabase(getActivity());
 
 
         View view = inflater.inflate(R.layout.survey_fragment, container, false);
