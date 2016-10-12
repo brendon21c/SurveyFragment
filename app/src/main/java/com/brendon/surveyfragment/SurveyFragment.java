@@ -56,6 +56,9 @@ public class SurveyFragment extends Fragment {
         mButton2.setText(cursor.getString(ANSWER_TWO_COL));
 
 
+        /*
+        This shoudl pull the information from the database and update the "yes" vote column then update.
+         */
         mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
