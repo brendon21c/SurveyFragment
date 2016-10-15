@@ -20,11 +20,13 @@ public class SurveyFragment extends Fragment {
     private Button mButton1;
     private Button mButton2;
 
+    /*
     private static final int QUESTION_COL = 0;
     private static final int ANSWER_ONE_COL = 1;
     private static final int ANSWER_TWO_COL = 2;
     private static final int ANSWER_ONE_VOTE_COL = 3;
     private static final int ANSWER_TWO_VOTE_COL = 4;
+    */
 
 
     //private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
@@ -39,7 +41,14 @@ public class SurveyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mDatabase = new SurveyDatabase(getActivity());
-        final Cursor cursor = mDatabase.getall();
+
+        Cursor cursor = mDatabase.getall();
+
+        String question = getString(cursor.getColumnIndex(SurveyDatabase.QUESTION_COL));
+        String answerOne = getString(cursor.getColumnIndex(SurveyDatabase.ANSWER_ONE_COL));
+        String answerTwo = getString(cursor.getColumnIndex(SurveyDatabase.ANSWER_TWO_COL));
+
+
 
 
         View view = inflater.inflate(R.layout.survey_fragment, container, false);
@@ -51,9 +60,9 @@ public class SurveyFragment extends Fragment {
 
 
         //mQuestionText = SurveyMain.mCurrentSurveyQuestion;
-        mQuestion.setText(cursor.getString(QUESTION_COL));
-        mButton1.setText(cursor.getString(ANSWER_ONE_COL));
-        mButton2.setText(cursor.getString(ANSWER_TWO_COL));
+        mQuestion.setText(question);
+        mButton1.setText(answerOne);
+        mButton2.setText(answerTwo);
 
 
         /*
@@ -63,12 +72,7 @@ public class SurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String questionTemp = cursor.getString(QUESTION_COL);
 
-                int answeVoteTemp = cursor.getInt(ANSWER_ONE_VOTE_COL) + 1;
-
-                mDatabase.updateYes(answeVoteTemp, questionTemp);
-                mDatabase.getall();
 
             }
         });
@@ -85,11 +89,6 @@ public class SurveyFragment extends Fragment {
 
             }
         });
-
-
-
-
-
 
 
         return view;
