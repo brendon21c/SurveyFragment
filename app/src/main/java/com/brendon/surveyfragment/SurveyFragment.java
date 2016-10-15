@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.HashMap;
-
+import java.util.List;
 
 
 public class SurveyFragment extends Fragment {
@@ -20,17 +20,11 @@ public class SurveyFragment extends Fragment {
     private Button mButton1;
     private Button mButton2;
 
-    /*
-    private static final int QUESTION_COL = 0;
-    private static final int ANSWER_ONE_COL = 1;
-    private static final int ANSWER_TWO_COL = 2;
-    private static final int ANSWER_ONE_VOTE_COL = 3;
-    private static final int ANSWER_TWO_VOTE_COL = 4;
-    */
 
 
-    //private HashMap<String, Integer> mSurveybank = new HashMap<String, Integer>();
     private String mQuestionText;
+    private int mVoteOne;
+    private int mVoteTwo;
 
     SurveyDatabase mDatabase;
 
@@ -42,13 +36,19 @@ public class SurveyFragment extends Fragment {
 
         mDatabase = new SurveyDatabase(getActivity());
 
-        Cursor cursor = mDatabase.getall();
 
-        String question = getString(cursor.getColumnIndex(SurveyDatabase.QUESTION_COL));
-        String answerOne = getString(cursor.getColumnIndex(SurveyDatabase.ANSWER_ONE_COL));
-        String answerTwo = getString(cursor.getColumnIndex(SurveyDatabase.ANSWER_TWO_COL));
+        List<String> questionBank = mDatabase.question();
+        List<String> answerBank = mDatabase.getAnswers();
+        List<Integer> votesBank = mDatabase.getVotes();
 
 
+
+        mQuestionText = questionBank.get(0);
+        String answerOne = answerBank.get(0);
+        String answerTwo = answerBank.get(1);
+
+        mVoteOne = votesBank.get(0);
+        mVoteTwo = votesBank.get(1);
 
 
         View view = inflater.inflate(R.layout.survey_fragment, container, false);
@@ -60,7 +60,7 @@ public class SurveyFragment extends Fragment {
 
 
         //mQuestionText = SurveyMain.mCurrentSurveyQuestion;
-        mQuestion.setText(question);
+        mQuestion.setText(mQuestionText);
         mButton1.setText(answerOne);
         mButton2.setText(answerTwo);
 
@@ -73,6 +73,10 @@ public class SurveyFragment extends Fragment {
             public void onClick(View view) {
 
 
+                mVoteOne = mVoteOne + 1;
+
+                mDatabase.updateYes(mVoteOne, mQuestionText);
+
 
             }
         });
@@ -81,11 +85,9 @@ public class SurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                int temp = SurveyMain.surveyBank.get(SurveyMain.mAnswerkey2);
+                mVoteTwo = mVoteTwo + 1;
 
-                SurveyMain.surveyBank.put(SurveyMain.mAnswerkey2, temp + 1);
-
-                System.out.println(SurveyMain.surveyBank.get(SurveyMain.mAnswerkey2));
+                mDatabase.updateNo(mVoteTwo, mQuestionText);
 
             }
         });

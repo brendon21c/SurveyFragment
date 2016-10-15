@@ -20,22 +20,6 @@ public class SurveyMain extends FragmentActivity {
 
 
 
-    /*
-   This section is to provide a starting point for the values
-    */
-    private static final int  mAnswerStart1 = 0;
-    private static final int mAnswerStart2 = 0;
-
-    public static String mCurrentSurveyQuestion = "Do you like fresh baked chocolate chip cookies?";
-    public static String mAnswerkey1 = "yes";
-    public static String mAnswerkey2 = "no";
-
-    /*
-    Survey answer total will be kep in this Hashmap.
-     */
-    public static HashMap<String,Integer> surveyBank;
-
-
     public  Button mQuestionButton;
     public  Button mUpdateButton;
     public  Button mResultsButton;
@@ -127,18 +111,20 @@ public class SurveyMain extends FragmentActivity {
 
 
 
-        //createSurvey();
-
-
-
     }
 
-    // Creates an intial database.
-    private void createSurvey() {
-
-        DBManager.addNewQuestion(mCurrentSurveyQuestion,mAnswerkey1,mAnswerkey2);
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DBManager.close();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DBManager = new SurveyDatabase(this);
+    }
+
 
 
 

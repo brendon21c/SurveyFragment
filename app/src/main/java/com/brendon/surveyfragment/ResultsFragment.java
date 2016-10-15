@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
 
 
 public class ResultsFragment extends Fragment {
@@ -20,8 +21,15 @@ public class ResultsFragment extends Fragment {
     private TextView mResultsText;
     private Button mResetButton;
 
-    private String answerOne = SurveyMain.mAnswerkey1;
-    private String answerTwo = SurveyMain.mAnswerkey2;
+    private String mCurrentQuestion = "";
+
+    private String mAnswerOne = "";
+    private String mAnswerTwo = "";
+
+    private int mAnswerOneVote;
+    private int mAnswerTwoVote;
+
+    SurveyDatabase mDatabase;
 
 
 
@@ -29,18 +37,32 @@ public class ResultsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        mDatabase = new SurveyDatabase(getActivity());
+
+        List<String> questionBank = mDatabase.question();
+        List<String> answerBank = mDatabase.getAnswers();
+        List<Integer> votesBank = mDatabase.getVotes();
+
+
+
+        mCurrentQuestion = questionBank.get(0);
+        mAnswerOne = answerBank.get(0);
+        mAnswerTwo = answerBank.get(1);
+
+        mAnswerOneVote = votesBank.get(0);
+        mAnswerTwoVote = votesBank.get(1);
+
+
         View view = inflater.inflate(R.layout.results_fragment, container, false);
 
         mQuestionText = (TextView) view.findViewById(R.id.question_view);
         mResultsText = (TextView) view.findViewById(R.id.results_view);
         mResetButton = (Button) view.findViewById(R.id.reset_button);
 
-        mQuestionText.setText(SurveyMain.mCurrentSurveyQuestion + "\n");
+        mQuestionText.setText(mCurrentQuestion);
 
-        mResultsText.setText("The number of people who voted " + answerOne + " is " +
-        SurveyMain.surveyBank.get(answerOne) + ". \n" + "The number of people who voted " +
-                answerTwo + " is " + SurveyMain.surveyBank.get(answerTwo) + ".");
-
+        mResultsText.setText(" The results for the number of people voting for " + mAnswerOne + " are: " + mAnswerOneVote +
+        ". \n" + "And the results for the number of people voting for " + mAnswerTwo + " are: " + mAnswerTwoVote + ".");
 
 
 
@@ -54,8 +76,8 @@ public class ResultsFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                SurveyMain.surveyBank.put(answerOne, 0);
-                                SurveyMain.surveyBank.put(answerTwo, 0);
+                                mDatabase.updateYes(0, mCurrentQuestion);
+                                mDatabase.updateNo(0, mCurrentQuestion);
 
                             }
                         })

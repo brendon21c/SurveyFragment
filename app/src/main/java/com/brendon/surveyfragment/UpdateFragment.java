@@ -35,6 +35,7 @@ public class UpdateFragment extends Fragment {
 
         mDatabase = new SurveyDatabase(getActivity());
 
+
         View view = inflater.inflate(R.layout.update_fragment, container, false);
 
         mQuestionTextView = (TextView) view.findViewById(R.id.question_label);

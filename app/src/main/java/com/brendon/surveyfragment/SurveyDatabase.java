@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SurveyDatabase {
 
@@ -46,6 +49,131 @@ public class SurveyDatabase {
         Cursor cursor = db.query(DB_TABLE, null, null, null, null, null, QUESTION_COL);
 
         return cursor;
+
+    }
+
+
+
+    // Goes over the database and returns all the questions.
+    public List<String> question() {
+
+
+        List<String> questions = new ArrayList<>();
+
+        Cursor cursor = getall();
+
+        String result = "";
+
+        try {
+
+            cursor.moveToLast();
+            while (!cursor.isAfterLast()) {
+
+                result = cursor.getString(cursor.getColumnIndex(QUESTION_COL));
+                questions.add(result);
+
+                if (questions.size() == 1) {
+
+                    break;
+
+                } else {
+
+                    cursor.moveToNext();
+                }
+            }
+
+        } finally {
+
+            cursor.close();
+
+        }
+
+        return questions;
+
+    }
+
+    public List<String> getAnswers() {
+
+        List<String> answers = new ArrayList<>();
+
+
+        Cursor cursor = getall();
+
+        String answerOne = "";
+        String answerTwo = "";
+
+        try {
+
+            cursor.moveToLast();
+
+            while (!cursor.isAfterLast()) {
+
+                answerOne = cursor.getString(cursor.getColumnIndex(ANSWER_ONE_COL));
+                answerTwo = cursor.getString(cursor.getColumnIndex(ANSWER_TWO_COL));
+
+                answers.add(answerOne);
+                answers.add(answerTwo);
+
+                if (answers.size() == 2) {
+
+                    break;
+
+                } else {
+
+                    cursor.moveToNext();
+
+                }
+            }
+
+        } finally {
+
+            cursor.close();
+        }
+
+        return answers;
+
+    }
+
+    // Gets the vote count for the query.
+    public List<Integer> getVotes() {
+
+        List<Integer> votes = new ArrayList<>();
+
+
+        Cursor cursor = getall();
+
+        int voteOne;
+        int voteTwo;
+
+        try {
+
+            cursor.moveToLast();
+
+            while (!cursor.isAfterLast()) {
+
+                voteOne = cursor.getInt(cursor.getColumnIndex(ANSWER_ONE_SURVEY_COL));
+                voteTwo = cursor.getInt(cursor.getColumnIndex(ANSWER_TWO_SURVEY_COLL));
+
+                votes.add(voteOne);
+                votes.add(voteTwo);
+
+                if (votes.size() == 2) {
+
+                    break;
+
+                } else {
+
+                    cursor.moveToNext();
+
+                }
+            }
+
+        } finally {
+
+            cursor.close();
+        }
+
+        return votes;
 
     }
 
@@ -98,6 +226,27 @@ public class SurveyDatabase {
 
             return false;
 
+        }
+
+    }
+
+    public boolean updateNo(int vote, String question) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ANSWER_TWO_SURVEY_COLL, vote);
+
+        String where = QUESTION_COL + " = ? ";
+        String[] whereArgs = { question };
+
+        int rowMod = db.update(DB_TABLE, contentValues, where, whereArgs);
+
+        if (rowMod == 1) {
+
+            return true;
+
+        } else {
+
+            return false;
         }
 
     }
