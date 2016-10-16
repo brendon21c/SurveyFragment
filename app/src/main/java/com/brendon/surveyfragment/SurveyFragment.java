@@ -36,8 +36,10 @@ public class SurveyFragment extends Fragment {
 
         mDatabase = new SurveyDatabase(getActivity());
 
+        SurveyQuestion survey = mDatabase.getSurvey("Do you like the default survey question?");  //Where does the question come from?
 
-        List<String> questionBank = mDatabase.question();
+
+/*        List<String> questionBank = mDatabase.question();
         List<String> answerBank = mDatabase.getAnswers();
         List<Integer> votesBank = mDatabase.getVotes();
 
@@ -49,7 +51,7 @@ public class SurveyFragment extends Fragment {
 
         mVoteOne = votesBank.get(0);
         mVoteTwo = votesBank.get(1);
-
+*/
 
         View view = inflater.inflate(R.layout.survey_fragment, container, false);
 
@@ -58,11 +60,15 @@ public class SurveyFragment extends Fragment {
         mButton2 = (Button) view.findViewById(R.id.no_button);
 
 
+        mQuestionText = survey.question;
 
         //mQuestionText = SurveyMain.mCurrentSurveyQuestion;
-        mQuestion.setText(mQuestionText);
-        mButton1.setText(answerOne);
-        mButton2.setText(answerTwo);
+        mQuestion.setText(survey.question);
+        mButton1.setText(survey.answer1);
+        mButton2.setText(survey.answer2);
+
+        mVoteOne = survey.answer1count;
+        mVoteTwo = survey.answer2count;
 
 
         /*

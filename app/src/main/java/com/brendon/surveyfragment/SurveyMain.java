@@ -35,6 +35,10 @@ public class SurveyMain extends FragmentActivity {
 
         DBManager = new SurveyDatabase(this);
 
+        SurveyQuestion defaultSurvey = new SurveyQuestion("Do you like the default survey question?", "yes", "no", 0, 0);
+        DBManager.addSurvey(defaultSurvey);
+
+
         mQuestionButton = (Button) findViewById(R.id.survey_button);
         mUpdateButton = (Button) findViewById(R.id.update_button);
         mResultsButton = (Button) findViewById(R.id.results_button);

@@ -53,6 +53,40 @@ public class SurveyDatabase {
     }
 
 
+    /* in your design, the question is the primary key? */
+    public SurveyQuestion getSurvey(String question) {
+
+        Cursor cursor = db.query(DB_TABLE, null, "question = ?", new String[] {question}, null, null, null);
+
+        cursor.moveToFirst();
+        SurveyQuestion surveyQuestion = new SurveyQuestion( cursor.getString(0) ,
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getInt(3),
+                cursor.getInt(4)
+                    );
+
+        return surveyQuestion;
+
+    }
+
+
+    public void addSurvey(SurveyQuestion survey) {
+
+        ContentValues values = new ContentValues();
+        values.put(QUESTION_COL, survey.question);
+        values.put(ANSWER_ONE_COL, survey.answer1);
+        values.put(ANSWER_TWO_COL, survey.answer2);
+        values.put(ANSWER_ONE_SURVEY_COL, survey.answer1count);
+        values.put(ANSWER_TWO_SURVEY_COLL, survey.answer2count);
+
+        try {
+            db.insertOrThrow(DB_TABLE, null, values);
+        } catch (SQLiteConstraintException sql) {
+            Log.d("DB", "There's probably a better way to deal with adding a default question");
+        }
+
+    }
 
     // Goes over the database and returns all the questions.
     public List<String> question() {
@@ -266,6 +300,7 @@ public class SurveyDatabase {
         }
 
         @Override
+
         public void onCreate(SQLiteDatabase db) {
             String createSQLbase = "CREATE TABLE %s ( %s TEXT PRIMARY KEY, %s TEXT, %s TEXT, %s INTEGER, %s INTEGER )";
             String createSQL = String.format(createSQLbase, DB_TABLE, QUESTION_COL, ANSWER_ONE_COL, ANSWER_TWO_COL, ANSWER_ONE_SURVEY_COL, ANSWER_TWO_SURVEY_COLL); // Adding new columns to database.
