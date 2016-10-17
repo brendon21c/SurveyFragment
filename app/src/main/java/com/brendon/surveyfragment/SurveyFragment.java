@@ -27,7 +27,7 @@ public class SurveyFragment extends Fragment {
     private int mVoteTwo;
 
     SurveyDatabase mDatabase;
-
+    QuestionManager mQuestionManager;
 
 
 
@@ -36,14 +36,15 @@ public class SurveyFragment extends Fragment {
 
         mDatabase = new SurveyDatabase(getActivity());
 
+        String question = mQuestionManager.getQuestion();
 
         List<String> questionBank = mDatabase.question();
         List<String> answerBank = mDatabase.getAnswers();
-        List<Integer> votesBank = mDatabase.getVotes();
+        List<Integer> votesBank = mDatabase.getVotes(question);
 
 
 
-        mQuestionText = questionBank.get(0);
+        //mQuestionText = questionBank.get(0);
         String answerOne = answerBank.get(0);
         String answerTwo = answerBank.get(1);
 
@@ -60,7 +61,7 @@ public class SurveyFragment extends Fragment {
 
 
         //mQuestionText = SurveyMain.mCurrentSurveyQuestion;
-        mQuestion.setText(mQuestionText);
+        mQuestion.setText(question);
         mButton1.setText(answerOne);
         mButton2.setText(answerTwo);
 

@@ -92,6 +92,39 @@ public class SurveyDatabase {
 
     }
 
+    // Gets all the questions for the textView.
+    public List<String> allQuestions() {
+
+
+        List<String> questions = new ArrayList<>();
+
+        Cursor cursor = getall();
+
+        String result = "";
+
+        try {
+
+            cursor.moveToFirst();
+
+            while (!cursor.isAfterLast()) {
+
+                result = cursor.getString(cursor.getColumnIndex(QUESTION_COL));
+                questions.add(result);
+
+                cursor.moveToNext();
+
+            }
+
+        } finally {
+
+            cursor.close();
+
+        }
+
+        return questions;
+
+    }
+
     public List<String> getAnswers() {
 
         List<String> answers = new ArrayList<>();
@@ -135,43 +168,32 @@ public class SurveyDatabase {
     }
 
     // Gets the vote count for the query.
-    public List<Integer> getVotes() {
+    public List<Integer> getVotes(String question) {
+
 
         List<Integer> votes = new ArrayList<>();
 
+        String[] cols = { ANSWER_ONE_SURVEY_COL, ANSWER_TWO_SURVEY_COLL };
 
-        Cursor cursor = getall();
+        String where = QUESTION_COL + " = ? ";
+        String[] whereArgs = { question };
+
+        Cursor cursor = db.query(DB_TABLE, cols, where, whereArgs, null, null, null);
 
         int voteOne;
         int voteTwo;
 
-        try {
+        if (cursor.moveToFirst()) {
 
-            cursor.moveToLast();
+            voteOne = cursor.getInt(cursor.getColumnIndex(ANSWER_ONE_SURVEY_COL));
+            voteTwo = cursor.getInt(cursor.getColumnIndex(ANSWER_TWO_SURVEY_COLL));
 
-            while (!cursor.isAfterLast()) {
+            votes.add(voteOne);
+            votes.add(voteTwo);
 
-                voteOne = cursor.getInt(cursor.getColumnIndex(ANSWER_ONE_SURVEY_COL));
-                voteTwo = cursor.getInt(cursor.getColumnIndex(ANSWER_TWO_SURVEY_COLL));
-
-                votes.add(voteOne);
-                votes.add(voteTwo);
-
-                if (votes.size() == 2) {
-
-                    break;
-
-                } else {
-
-                    cursor.moveToNext();
-
-                }
-            }
-
-        } finally {
-
-            cursor.close();
         }
+
+        cursor.close();
 
         return votes;
 

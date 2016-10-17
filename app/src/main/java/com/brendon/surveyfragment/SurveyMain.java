@@ -1,31 +1,62 @@
 package com.brendon.surveyfragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
-/*
-There is a side note with this project. The data is being passed by each fragment by accessing
-the data directly from the main Activity. I'm not sure if this is best but it is the only way
-I could think of. Also you need to press the back button to get rid of the fragments and I
-am really not a fan of this.
- */
 
 public class SurveyMain extends FragmentActivity {
 
 
+    private ListView mQuestionTextView;
 
-    public  Button mQuestionButton;
-    public  Button mUpdateButton;
-    public  Button mResultsButton;
+
+    private List<String> mQuestionBankImport;
+    private ArrayList<String> mQuestionBankList;
+    private ArrayAdapter<String> mQuestionAdapter;
+
+    private static final String surveyKey = "survey key";
+
 
 
     SurveyDatabase DBManager;
+    QuestionManager mQuestionManager;
+
+
+
+    // Allows for this information to be called and recycled.
+    private ArrayList<String> updateList() {
+
+        mQuestionBankImport = DBManager.allQuestions(); // Stores all of the questions
+
+        mQuestionBankList = new ArrayList<String>();
+
+        // Adds the imported question into the list for the adapter.
+        for (int i = 0 ; i < mQuestionBankImport.size(); i++ ) {
+
+            mQuestionBankList.add(mQuestionBankImport.get(i));
+
+        }
+
+        mQuestionAdapter = new ArrayAdapter<String>(this, R.layout.list_view,
+                R.id.list_item_text, mQuestionBankList);
+
+        return mQuestionBankList;
+
+    }
 
 
     @Override
@@ -35,81 +66,31 @@ public class SurveyMain extends FragmentActivity {
 
         DBManager = new SurveyDatabase(this);
 
-        mQuestionButton = (Button) findViewById(R.id.survey_button);
-        mUpdateButton = (Button) findViewById(R.id.update_button);
-        mResultsButton = (Button) findViewById(R.id.results_button);
+        updateList();
 
 
+        mQuestionTextView = (ListView) findViewById(R.id.questions_list_view);
+
+        mQuestionTextView.setAdapter(mQuestionAdapter);
 
 
-        mQuestionButton.setOnClickListener(new View.OnClickListener() {
+        mQuestionTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                String userSelection = mQuestionTextView.getItemAtPosition(i).toString();
 
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
+                mQuestionManager = new QuestionManager();
+                mQuestionManager.setQuestion(userSelection);
 
+                Intent intent = new Intent(SurveyMain.this, SurveyDisplayActivity.class);
 
-                if (frag == null) {
+                startActivity(intent);
 
-                    frag = new SurveyFragment();
-
-                    fm.beginTransaction()
-                            .add(R.id.activity_survey_main, frag)
-                            .addToBackStack(null)
-                            .commit();
-                }
-
-            }
-        });
-
-
-        mUpdateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
-
-                if (frag == null) {
-
-                    frag = new UpdateFragment();
-
-                    fm.beginTransaction()
-                            .add(R.id.activity_survey_main, frag)
-                            .addToBackStack(null)
-                            .commit();
-
-                }
 
 
             }
         });
-
-        mResultsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment frag = fm.findFragmentById(R.id.activity_survey_main);
-
-                if (frag == null) {
-
-                    frag = new ResultsFragment();
-
-                    fm.beginTransaction()
-                            .add(R.id.activity_survey_main, frag)
-                            .addToBackStack(null)
-                            .commit();
-
-                }
-
-
-            }
-        });
-
-
 
     }
 
@@ -123,6 +104,8 @@ public class SurveyMain extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         DBManager = new SurveyDatabase(this);
+
+        updateList();
     }
 
 
