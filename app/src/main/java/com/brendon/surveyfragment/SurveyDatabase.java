@@ -54,51 +54,15 @@ public class SurveyDatabase {
 
 
 
-    // Goes over the database and returns all the questions.
-    public List<String> question() {
-
-
-        List<String> questions = new ArrayList<>();
-
-        Cursor cursor = getall();
-
-        String result = "";
-
-        try {
-
-            cursor.moveToLast();
-            while (!cursor.isAfterLast()) {
-
-                result = cursor.getString(cursor.getColumnIndex(QUESTION_COL));
-                questions.add(result);
-
-                if (questions.size() == 1) {
-
-                    break;
-
-                } else {
-
-                    cursor.moveToNext();
-                }
-            }
-
-        } finally {
-
-            cursor.close();
-
-        }
-
-        return questions;
-
-    }
-
     // Gets all the questions for the textView.
     public List<String> allQuestions() {
 
 
         List<String> questions = new ArrayList<>();
 
-        Cursor cursor = getall();
+        String[] cols = { QUESTION_COL };
+
+        Cursor cursor = db.query(DB_TABLE,cols, null, null, null, null, null);
 
         String result = "";
 
@@ -125,12 +89,16 @@ public class SurveyDatabase {
 
     }
 
-    public List<String> getAnswers() {
+    public List<String> getAnswers(String question) {
 
         List<String> answers = new ArrayList<>();
 
+        String[] cols = { ANSWER_ONE_COL, ANSWER_TWO_COL };
 
-        Cursor cursor = getall();
+        String where = QUESTION_COL + " = ? ";
+        String[] whereArgs = { question };
+
+        Cursor cursor = db.query(DB_TABLE, cols, where, whereArgs, null, null, null);
 
         String answerOne = "";
         String answerTwo = "";

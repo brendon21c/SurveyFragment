@@ -30,7 +30,6 @@ public class ResultsFragment extends Fragment {
     private int mAnswerTwoVote;
 
     SurveyDatabase mDatabase;
-    QuestionManager mQuestionManager;
 
 
 
@@ -40,15 +39,12 @@ public class ResultsFragment extends Fragment {
 
         mDatabase = new SurveyDatabase(getActivity());
 
-        String question = mQuestionManager.getQuestion();
+        mCurrentQuestion = getArguments().getString("key");
 
-        List<String> questionBank = mDatabase.question();
-        List<String> answerBank = mDatabase.getAnswers();
-        List<Integer> votesBank = mDatabase.getVotes(question);
-
+        List<String> answerBank = mDatabase.getAnswers(mCurrentQuestion);
+        List<Integer> votesBank = mDatabase.getVotes(mCurrentQuestion);
 
 
-        mCurrentQuestion = questionBank.get(0);
         mAnswerOne = answerBank.get(0);
         mAnswerTwo = answerBank.get(1);
 

@@ -22,24 +22,23 @@ public class SurveyFragment extends Fragment {
 
 
 
-    private String mQuestionText;
     private int mVoteOne;
     private int mVoteTwo;
+    private String question;
 
     SurveyDatabase mDatabase;
-    QuestionManager mQuestionManager;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        question = getArguments().getString("key");
         mDatabase = new SurveyDatabase(getActivity());
 
-        String question = mQuestionManager.getQuestion();
 
-        List<String> questionBank = mDatabase.question();
-        List<String> answerBank = mDatabase.getAnswers();
+        //List<String> questionBank = mDatabase.question();
+        List<String> answerBank = mDatabase.getAnswers(question);
         List<Integer> votesBank = mDatabase.getVotes(question);
 
 
@@ -76,7 +75,7 @@ public class SurveyFragment extends Fragment {
 
                 mVoteOne = mVoteOne + 1;
 
-                mDatabase.updateYes(mVoteOne, mQuestionText);
+                mDatabase.updateYes(mVoteOne, question);
 
 
             }
@@ -88,7 +87,7 @@ public class SurveyFragment extends Fragment {
 
                 mVoteTwo = mVoteTwo + 1;
 
-                mDatabase.updateNo(mVoteTwo, mQuestionText);
+                mDatabase.updateNo(mVoteTwo, question);
 
             }
         });

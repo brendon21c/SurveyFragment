@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SurveyMain extends FragmentActivity {
+public class SurveyMain extends AppCompatActivity {
 
 
     private ListView mQuestionTextView;
@@ -29,11 +29,11 @@ public class SurveyMain extends FragmentActivity {
     private ArrayAdapter<String> mQuestionAdapter;
 
     private static final String surveyKey = "survey key";
+    private static  final int SURVEY_DISPLAY_CODE = 0;
 
 
 
     SurveyDatabase DBManager;
-    QuestionManager mQuestionManager;
 
 
 
@@ -80,18 +80,34 @@ public class SurveyMain extends FragmentActivity {
 
                 String userSelection = mQuestionTextView.getItemAtPosition(i).toString();
 
-                mQuestionManager = new QuestionManager();
-                mQuestionManager.setQuestion(userSelection);
-
                 Intent intent = new Intent(SurveyMain.this, SurveyDisplayActivity.class);
 
-                startActivity(intent);
+                //Bundle bundle = new Bundle();
+                //bundle.putString("key", userSelection);
 
+                intent.putExtra(surveyKey, userSelection);
+
+                startActivityForResult(intent, SURVEY_DISPLAY_CODE);
 
 
             }
         });
 
+    }
+
+    // Updates the list when the user presses the back button.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            DBManager = new SurveyDatabase(this);
+            updateList();
+
+            mQuestionTextView.setAdapter(mQuestionAdapter);
+
+        }
     }
 
     @Override
